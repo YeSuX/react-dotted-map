@@ -10,9 +10,9 @@ function App() {
     <div style={{ padding: "20px" }}>
       <h1>React Dotted Map Playground</h1>
 
-      <BasicExample />
-      <RenderPropsExample />
-      <HookExample />
+      {/* <BasicExample /> */}
+      {/* <RenderPropsExample /> */}
+      {/* <HookExample /> */}
       <FactoryExample />
     </div>
   );

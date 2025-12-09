@@ -38,7 +38,7 @@ export function CountriesMapExample() {
         width={600}
         height={400}
         spacing={2}
-        countries={["CHN", "USA"]}
+        countries={["CHN"]}
         geojsonByCountry={geojsonByCountry}
         grid="diagonal"
         shape="hexagon"
@@ -172,10 +172,10 @@ export default function FactoryExample() {
     <div style={{ padding: "2rem" }}>
       <h1>DottedMapFactory Examples</h1>
       <div style={{ display: "flex", flexDirection: "column", gap: "3rem" }}>
-        <WorldMapExample />
-        <CountriesMapExample />
-        <CustomRenderExample />
-        <RegionMapExample />
+        {/* <WorldMapExample /> */}
+        {/* <CountriesMapExample /> */}
+        {/* <CustomRenderExample /> */}
+        {/* <RegionMapExample /> */}
         <CountryColorsExample />
       </div>
     </div>
