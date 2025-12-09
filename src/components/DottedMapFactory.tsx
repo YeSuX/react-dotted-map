@@ -4,10 +4,9 @@
  * Wraps the low-level DottedMap component with map generation logic
  */
 
-import { useMemo } from "react";
 import type { FeatureCollection, Feature } from "geojson";
 import DottedMap, { type DottedMapProps } from "./DottedMap";
-import { generateMap, createMapCacheKey } from "../services/mapGenerator";
+import { useMapFactory } from "../hooks/useMapFactory";
 import type { BoundingBox } from "../services/geojsonService";
 import type { GridType } from "../services/types";
 
@@ -46,28 +45,16 @@ export default function DottedMapFactory<TData = unknown>({
   geojsonByCountry,
   ...dottedMapProps
 }: DottedMapFactoryProps<TData>) {
-  // Memoize map generation to avoid expensive recalculation
-  const map = useMemo(() => {
-    const cacheKey = createMapCacheKey({
-      height,
-      width,
-      countries,
-      region,
-      grid,
-    });
-
-    // In production, you could integrate with a caching mechanism here
-    // For now, we generate on every mount
-    return generateMap<TData>({
-      height,
-      width,
-      countries,
-      region,
-      grid,
-      geojsonWorld,
-      geojsonByCountry,
-    });
-  }, [height, width, countries, region, grid, geojsonWorld, geojsonByCountry]);
+  // Delegate map generation logic to Hook layer
+  const map = useMapFactory<TData>({
+    height,
+    width,
+    countries,
+    region,
+    grid,
+    geojsonWorld,
+    geojsonByCountry,
+  });
 
   return <DottedMap<TData> map={map} {...dottedMapProps} />;
 }

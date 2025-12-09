@@ -30,6 +30,11 @@ export function useDottedMap<TData = unknown>(
   avoidOuterPins = false,
   polygon?: PolygonType
 ): DottedMapInstance<TData> {
+  // Store map config in ref to maintain stable reference across renders
+  // This prevents unnecessary recreation of callbacks
+  const mapRef = useRef<MapConfig<TData>>(map);
+  mapRef.current = map;
+
   // Use ref to store points map - doesn't need to trigger re-renders
   // since SVG is generated on-demand via getSVG()
   const pointsMapRef = useRef<Record<string, PinPoint<TData>>>({
@@ -51,7 +56,7 @@ export function useDottedMap<TData = unknown>(
       const screenCoords = latLngToScreenCoords({
         lat,
         lng,
-        mapConfig: map,
+        mapConfig: mapRef.current,
         avoidOuterPins,
         polygon,
       });
@@ -71,7 +76,7 @@ export function useDottedMap<TData = unknown>(
 
       return point;
     },
-    [map, avoidOuterPins, polygon]
+    [avoidOuterPins, polygon]
   );
 
   /**
@@ -89,12 +94,12 @@ export function useDottedMap<TData = unknown>(
       return latLngToScreenCoords({
         lat,
         lng,
-        mapConfig: map,
+        mapConfig: mapRef.current,
         avoidOuterPins,
         polygon,
       });
     },
-    [map, avoidOuterPins, polygon]
+    [avoidOuterPins, polygon]
   );
 
   /**
@@ -108,13 +113,10 @@ export function useDottedMap<TData = unknown>(
    * Generate SVG string for the current map state
    * Called on-demand when rendering is needed
    */
-  const getSVG = useCallback(
-    (params: GetSVGParams = {}): string => {
-      const points = Object.values(pointsMapRef.current);
-      return generateMapSVG(points, params, map.width, map.height);
-    },
-    [map.width, map.height]
-  );
+  const getSVG = useCallback((params: GetSVGParams = {}): string => {
+    const points = Object.values(pointsMapRef.current);
+    return generateMapSVG(points, params, mapRef.current.width, mapRef.current.height);
+  }, []);
 
   // Memoize the instance object to maintain referential stability
   const instance = useMemo<DottedMapInstance<TData>>(
@@ -124,12 +126,12 @@ export function useDottedMap<TData = unknown>(
       getPoints,
       getSVG,
       image: {
-        region: map.region,
-        width: map.width,
-        height: map.height,
+        region: mapRef.current.region,
+        width: mapRef.current.width,
+        height: mapRef.current.height,
       },
     }),
-    [addPin, getPin, getPoints, getSVG, map.region, map.width, map.height]
+    [addPin, getPin, getPoints, getSVG]
   );
 
   return instance;

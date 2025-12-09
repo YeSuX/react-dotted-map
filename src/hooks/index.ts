@@ -4,4 +4,6 @@
  */
 
 export { useDottedMap } from "./useDottedMap";
+export { useMapFactory } from "./useMapFactory";
+export type { UseMapFactoryParams } from "./useMapFactory";
 
