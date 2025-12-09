@@ -18,6 +18,7 @@ export interface DottedMapProps<TData = unknown> {
   color?: string;
   backgroundColor?: string;
   radius?: number;
+  countryColors?: Record<string, string>;
 }
 
 /**
@@ -34,6 +35,7 @@ function DottedMap<TData = unknown>({
   color = "current",
   backgroundColor = "transparent",
   radius = 0.5,
+  countryColors,
 }: DottedMapProps<TData>) {
   // Delegate all logic to Hook layer
   const instance = useDottedMap<TData>(map, avoidOuterPins, polygon);
@@ -47,7 +49,13 @@ function DottedMap<TData = unknown>({
   return (
     <div
       dangerouslySetInnerHTML={{
-        __html: instance.getSVG({ shape, color, backgroundColor, radius }),
+        __html: instance.getSVG({
+          shape,
+          color,
+          backgroundColor,
+          radius,
+          countryColors,
+        }),
       }}
     />
   );

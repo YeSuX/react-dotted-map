@@ -130,6 +130,40 @@ export function RegionMapExample() {
 }
 
 /**
+ * Example 5: Country-specific colors
+ */
+export function CountryColorsExample() {
+  return (
+    <div>
+      <h2>World Map with Country Colors</h2>
+      <DottedMapFactory
+        width={800}
+        height={400}
+        spacing={2}
+        geojsonWorld={geojsonWorld}
+        geojsonByCountry={geojsonByCountry}
+        shape="circle"
+        color="#94a3b8"
+        backgroundColor="#f8fafc"
+        radius={0.5}
+        countryColors={{
+          CHN: "#ef4444",
+          USA: "#3b82f6",
+          RUS: "#8b5cf6",
+          IND: "#f59e0b",
+          BRA: "#10b981",
+          AUS: "#ec4899",
+          CAN: "#06b6d4",
+          JPN: "#f97316",
+          GBR: "#14b8a6",
+          FRA: "#6366f1",
+        }}
+      />
+    </div>
+  );
+}
+
+/**
  * Combined example showcase
  */
 export default function FactoryExample() {
@@ -141,6 +175,7 @@ export default function FactoryExample() {
         <CountriesMapExample />
         <CustomRenderExample />
         <RegionMapExample />
+        <CountryColorsExample />
       </div>
     </div>
   );

@@ -19,6 +19,7 @@ export interface UseMapFactoryParams<TData = unknown> {
   spacing?: number;
   geojsonWorld?: FeatureCollection;
   geojsonByCountry?: Record<string, Feature>;
+  countryColors?: Record<string, string>;
 }
 
 /**
@@ -36,10 +37,12 @@ export function useMapFactory<TData = unknown>({
   spacing = 2,
   geojsonWorld,
   geojsonByCountry,
+  countryColors,
 }: UseMapFactoryParams<TData>): MapConfig<TData> {
   // Serialize all complex dependencies to prevent reference instability
   const countriesKey = countries ? JSON.stringify(countries) : "";
   const regionKey = region ? JSON.stringify(region) : "";
+  const countryColorsKey = countryColors ? JSON.stringify(countryColors) : "";
 
   // Serialize GeoJSON data to stable keys
   // These are large objects that may have unstable references
@@ -53,6 +56,7 @@ export function useMapFactory<TData = unknown>({
   // Memoize map generation based on generation parameters
   const map = useMemo(() => {
     // Call Service layer to generate map
+    // Enable country detection if countryColors is provided
     return generateMap<TData>({
       height,
       width,
@@ -62,10 +66,11 @@ export function useMapFactory<TData = unknown>({
       spacing,
       geojsonWorld,
       geojsonByCountry,
+      detectCountries: !!countryColors,
     });
     // Use serialized keys instead of object references to prevent unnecessary recalculation
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [height, width, countriesKey, regionKey, grid, spacing, geojsonWorldKey, geojsonByCountryKey]);
+  }, [height, width, countriesKey, regionKey, grid, spacing, geojsonWorldKey, geojsonByCountryKey, countryColorsKey]);
 
   return map;
 }

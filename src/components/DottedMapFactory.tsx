@@ -20,6 +20,7 @@ export interface DottedMapFactoryProps<TData = unknown>
   spacing?: number;
   geojsonWorld?: FeatureCollection;
   geojsonByCountry?: Record<string, Feature>;
+  countryColors?: Record<string, string>;
 }
 
 /**
@@ -45,6 +46,7 @@ export default function DottedMapFactory<TData = unknown>({
   spacing = 2,
   geojsonWorld,
   geojsonByCountry,
+  countryColors,
   ...dottedMapProps
 }: DottedMapFactoryProps<TData>) {
   // Delegate map generation logic to Hook layer
@@ -57,7 +59,14 @@ export default function DottedMapFactory<TData = unknown>({
     spacing,
     geojsonWorld,
     geojsonByCountry,
+    countryColors,
   });
 
-  return <DottedMap<TData> map={map} {...dottedMapProps} />;
+  return (
+    <DottedMap<TData>
+      map={map}
+      countryColors={countryColors}
+      {...dottedMapProps}
+    />
+  );
 }

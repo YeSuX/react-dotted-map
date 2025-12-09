@@ -30,6 +30,7 @@ export interface MapGenerationParams {
   spacing?: number;
   geojsonWorld?: FeatureCollection;
   geojsonByCountry?: Record<string, Feature>;
+  detectCountries?: boolean;
 }
 
 /**
@@ -55,6 +56,7 @@ export function generateMap<TData = unknown>(
     spacing = 2,
     geojsonWorld,
     geojsonByCountry,
+    detectCountries = false,
   } = params;
 
   // Validate dimensions
@@ -90,6 +92,14 @@ export function generateMap<TData = unknown>(
 
   // Convert to unified MultiPolygon for boundary testing
   const poly = geojsonToMultiPolygons(geojson);
+
+  // Prepare country detection if enabled
+  const countryFeatures = detectCountries && geojsonByCountry
+    ? Object.entries(geojsonByCountry).map(([code, feature]) => ({
+      code,
+      feature,
+    }))
+    : [];
 
   // Project region bounds to Google Mercator
   const [X_MIN, Y_MIN] = proj4(GOOGLE_PROJ, [region.lng.min, region.lat.min]);
@@ -133,11 +143,23 @@ export function generateMap<TData = unknown>(
         const [lng, lat] = wgs84Point;
         const key = [x, y].join(";");
 
+        // Detect which country this point belongs to
+        let countryCode: string | undefined;
+        if (detectCountries && countryFeatures.length > 0) {
+          for (const { code, feature } of countryFeatures) {
+            if (inside(wgs84Point, feature)) {
+              countryCode = code;
+              break;
+            }
+          }
+        }
+
         points[key] = {
           x: localx,
           y: localy,
           lat,
           lng,
+          countryCode,
         };
       }
     }

@@ -68,17 +68,27 @@ export function generateHexagonPath(
  * @param shape - Shape type (circle or hexagon)
  * @param defaultColor - Default fill color
  * @param defaultRadius - Default radius
+ * @param countryColors - Optional country-specific color mapping
  * @returns SVG element string
  */
 export function generatePinSVG<TData>(
     point: PinPoint<TData>,
     shape: ShapeType,
     defaultColor: string,
-    defaultRadius: number
+    defaultRadius: number,
+    countryColors?: Record<string, string>
 ): string {
-    const { x, y, svgOptions = {} } = point;
+    const { x, y, svgOptions = {}, countryCode } = point;
     const radius = svgOptions.radius ?? defaultRadius;
-    const color = svgOptions.color ?? defaultColor;
+
+    // Priority: svgOptions.color > countryColors[countryCode] > defaultColor
+    let color = svgOptions.color;
+    if (!color && countryCode && countryColors?.[countryCode]) {
+        color = countryColors[countryCode];
+    }
+    if (!color) {
+        color = defaultColor;
+    }
 
     if (shape === "circle") {
         return generateCirclePath(x, y, radius, color);
@@ -109,10 +119,11 @@ export function generateMapSVG<TData>(
         color = "current",
         backgroundColor = "transparent",
         radius = 0.5,
+        countryColors,
     } = params;
 
     const pinElements = points
-        .map((point) => generatePinSVG(point, shape, color, radius))
+        .map((point) => generatePinSVG(point, shape, color, radius, countryColors))
         .join("\n");
 
     return `<svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" style="background-color: ${backgroundColor}">

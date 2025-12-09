@@ -20,6 +20,7 @@ export interface PinPoint<TData = unknown> {
   lng: number;
   data?: TData;
   svgOptions?: SvgOptions;
+  countryCode?: string;
 }
 
 export interface MapConfig<TData = unknown> {
@@ -47,6 +48,7 @@ export interface GetSVGParams {
   color?: string;
   backgroundColor?: string;
   radius?: number;
+  countryColors?: Record<string, string>;
 }
 
 export interface DottedMapInstance<TData = unknown> {
