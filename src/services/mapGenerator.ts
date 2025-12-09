@@ -27,6 +27,7 @@ export interface MapGenerationParams {
   countries?: string[];
   region?: BoundingBox;
   grid?: GridType;
+  spacing?: number;
   geojsonWorld?: FeatureCollection;
   geojsonByCountry?: Record<string, Feature>;
 }
@@ -51,6 +52,7 @@ export function generateMap<TData = unknown>(
     countries = [],
     region: inputRegion,
     grid = "square",
+    spacing = 2,
     geojsonWorld,
     geojsonByCountry,
   } = params;
@@ -106,13 +108,13 @@ export function generateMap<TData = unknown>(
     height = Math.round((width * Y_RANGE) / X_RANGE);
   }
 
-  // Generate grid points
+  // Generate grid points with spacing control
   const points: Record<string, PinPoint<TData>> = {};
   // "vertical" is treated as "square" grid (ystep = 1)
   const ystep = grid === "diagonal" ? Math.sqrt(3) / 2 : 1;
 
-  for (let y = 0; y * ystep < height; y += 1) {
-    for (let x = 0; x < width; x += 1) {
+  for (let y = 0; y * ystep < height; y += spacing) {
+    for (let x = 0; x < width; x += spacing) {
       // Apply diagonal grid offset for even rows
       const localx = y % 2 === 0 && grid === "diagonal" ? x + 0.5 : x;
       const localy = y * ystep;

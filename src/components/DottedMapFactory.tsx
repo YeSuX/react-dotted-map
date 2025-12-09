@@ -17,6 +17,7 @@ export interface DottedMapFactoryProps<TData = unknown>
   countries?: string[];
   region?: BoundingBox;
   grid?: GridType;
+  spacing?: number;
   geojsonWorld?: FeatureCollection;
   geojsonByCountry?: Record<string, Feature>;
 }
@@ -41,6 +42,7 @@ export default function DottedMapFactory<TData = unknown>({
   countries,
   region,
   grid = "vertical",
+  spacing = 2,
   geojsonWorld,
   geojsonByCountry,
   ...dottedMapProps
@@ -52,6 +54,7 @@ export default function DottedMapFactory<TData = unknown>({
     countries,
     region,
     grid,
+    spacing,
     geojsonWorld,
     geojsonByCountry,
   });

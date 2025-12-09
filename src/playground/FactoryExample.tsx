@@ -16,6 +16,7 @@ export function WorldMapExample() {
       <DottedMapFactory
         width={800}
         height={400}
+        spacing={2}
         geojsonWorld={geojsonWorld}
         shape="circle"
         color="#0ea5e9"
@@ -36,6 +37,7 @@ export function CountriesMapExample() {
       <DottedMapFactory
         width={600}
         height={400}
+        spacing={2}
         countries={["CHN", "USA"]}
         geojsonByCountry={geojsonByCountry}
         grid="diagonal"
@@ -57,6 +59,7 @@ export function CustomRenderExample() {
       <DottedMapFactory
         width={800}
         height={400}
+        spacing={2}
         geojsonWorld={geojsonWorld}
         grid="vertical"
       >
@@ -112,6 +115,7 @@ export function RegionMapExample() {
       <DottedMapFactory
         width={800}
         height={500}
+        spacing={2}
         geojsonWorld={geojsonWorld}
         region={{
           lat: { min: -10, max: 55 },

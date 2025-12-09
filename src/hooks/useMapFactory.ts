@@ -16,6 +16,7 @@ export interface UseMapFactoryParams<TData = unknown> {
   countries?: string[];
   region?: BoundingBox;
   grid?: GridType;
+  spacing?: number;
   geojsonWorld?: FeatureCollection;
   geojsonByCountry?: Record<string, Feature>;
 }
@@ -32,6 +33,7 @@ export function useMapFactory<TData = unknown>({
   countries,
   region,
   grid = "vertical",
+  spacing = 2,
   geojsonWorld,
   geojsonByCountry,
 }: UseMapFactoryParams<TData>): MapConfig<TData> {
@@ -57,12 +59,13 @@ export function useMapFactory<TData = unknown>({
       countries,
       region,
       grid,
+      spacing,
       geojsonWorld,
       geojsonByCountry,
     });
     // Use serialized keys instead of object references to prevent unnecessary recalculation
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [height, width, countriesKey, regionKey, grid, geojsonWorldKey, geojsonByCountryKey]);
+  }, [height, width, countriesKey, regionKey, grid, spacing, geojsonWorldKey, geojsonByCountryKey]);
 
   return map;
 }
