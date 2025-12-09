@@ -1,9 +1,16 @@
-import type { SvgOptions } from "./DottendMap";
+/**
+ * UI Layer: Pin Component
+ * Pure presentational component for rendering individual map pins
+ * Uses Service layer for hexagon calculations, handles SVG rendering and events
+ */
+
+import { calculateHexagonPoints } from "../services/svgService";
+import type { SvgOptions, ShapeType } from "../services/types";
 
 export interface PinProps {
   x: number;
   y: number;
-  shape?: "circle" | "hexagon";
+  shape?: ShapeType;
   radius?: number;
   color?: string;
   svgOptions?: SvgOptions;
@@ -12,6 +19,10 @@ export interface PinProps {
   onMouseLeave?: () => void;
 }
 
+/**
+ * Pin component for rendering a single point on the map
+ * Supports circle and hexagon shapes with custom styling and interactions
+ */
 export default function Pin({
   x,
   y,
@@ -23,9 +34,11 @@ export default function Pin({
   onMouseEnter,
   onMouseLeave,
 }: PinProps) {
-  const pointRadius = svgOptions?.radius || radius;
-  const pointColor = svgOptions?.color || color;
+  // Calculate final styling with svgOptions override
+  const pointRadius = svgOptions?.radius ?? radius;
+  const pointColor = svgOptions?.color ?? color;
 
+  // Circle shape rendering
   if (shape === "circle") {
     return (
       <circle
@@ -41,16 +54,10 @@ export default function Pin({
     );
   }
 
+  // Hexagon shape rendering
   if (shape === "hexagon") {
-    const sqrt3radius = Math.sqrt(3) * pointRadius;
-    const polyPoints = [
-      [x + sqrt3radius, y - pointRadius],
-      [x + sqrt3radius, y + pointRadius],
-      [x, y + 2 * pointRadius],
-      [x - sqrt3radius, y + pointRadius],
-      [x - sqrt3radius, y - pointRadius],
-      [x, y - 2 * pointRadius],
-    ];
+    // Delegate hexagon calculation to Service layer
+    const polyPoints = calculateHexagonPoints(x, y, pointRadius);
 
     return (
       <polygon

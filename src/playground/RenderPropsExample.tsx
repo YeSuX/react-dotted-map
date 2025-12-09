@@ -1,5 +1,5 @@
 import { useState } from "react";
-import DottedMap, { type MapConfig } from "../components/DottendMap";
+import { DottedMap, type MapConfig } from "../components";
 
 const initialMapConfig: MapConfig = {
   points: {},

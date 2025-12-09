@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useDottedMap, type MapConfig } from "../components/DottendMap";
+import { useDottedMap, type MapConfig } from "../components";
 
 const initialMapConfig: MapConfig = {
   points: {},
@@ -15,7 +15,7 @@ const initialMapConfig: MapConfig = {
 };
 
 export default function HookExample() {
-  const [config] = useState(initialMapConfig);
+  const [config, setConfig] = useState(initialMapConfig);
   const [refreshKey, setRefreshKey] = useState(0);
   const mapInstance = useDottedMap(config);
 
@@ -39,7 +39,10 @@ export default function HookExample() {
 
   const handleClearPins = () => {
     // Reset the config to clear all pins
-    config.points = {};
+    setConfig({
+      ...initialMapConfig,
+      points: {},
+    });
     setRefreshKey((prev) => prev + 1);
   };
 
@@ -107,4 +110,3 @@ export default function HookExample() {
     </div>
   );
 }
-
