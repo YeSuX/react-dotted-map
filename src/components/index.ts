@@ -4,6 +4,7 @@
  */
 
 export { default as DottedMap } from "./DottedMap";
+export { default as DottedMapFactory } from "./DottedMapFactory";
 export { default as Pin } from "./Pin";
 
 // Re-export commonly used types and hooks for convenience
@@ -19,4 +20,5 @@ export type {
     GridType,
     PolygonType,
 } from "../services/types";
+export type { BoundingBox } from "../services/geojsonService";
 

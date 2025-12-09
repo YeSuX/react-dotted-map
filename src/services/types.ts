@@ -5,7 +5,7 @@
 
 import type { Feature, Polygon as GeoJSONPolygon } from "geojson";
 
-export type GridType = "diagonal" | "square";
+export type GridType = "diagonal" | "square" | "vertical";
 export type ShapeType = "circle" | "hexagon";
 
 export interface SvgOptions {

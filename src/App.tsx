@@ -1,4 +1,9 @@
-import { BasicExample, RenderPropsExample, HookExample } from "./playground";
+import {
+  BasicExample,
+  RenderPropsExample,
+  HookExample,
+  FactoryExample,
+} from "./playground";
 
 function App() {
   return (
@@ -8,6 +13,7 @@ function App() {
       <BasicExample />
       <RenderPropsExample />
       <HookExample />
+      <FactoryExample />
     </div>
   );
 }
