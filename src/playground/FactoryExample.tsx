@@ -131,6 +131,7 @@ export function RegionMapExample() {
 
 /**
  * Example 5: Country-specific colors
+ * Note: Uses larger spacing for better performance when detecting countries
  */
 export function CountryColorsExample() {
   return (
@@ -139,13 +140,13 @@ export function CountryColorsExample() {
       <DottedMapFactory
         width={800}
         height={400}
-        spacing={2}
+        spacing={3}
         geojsonWorld={geojsonWorld}
         geojsonByCountry={geojsonByCountry}
         shape="circle"
         color="#94a3b8"
         backgroundColor="#f8fafc"
-        radius={0.5}
+        radius={0.8}
         countryColors={{
           CHN: "#ef4444",
           USA: "#3b82f6",

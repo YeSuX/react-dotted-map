@@ -26,6 +26,8 @@ export interface PinPoint<TData = unknown> {
 export interface MapConfig<TData = unknown> {
   points: Record<string, PinPoint<TData>>;
   X_MIN: number;
+  Y_MIN: number;
+  X_MAX: number;
   Y_MAX: number;
   X_RANGE: number;
   Y_RANGE: number;

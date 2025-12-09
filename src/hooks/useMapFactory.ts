@@ -57,6 +57,9 @@ export function useMapFactory<TData = unknown>({
   const map = useMemo(() => {
     // Call Service layer to generate map
     // Enable country detection if countryColors is provided
+    // Only detect countries in countryColors to improve performance
+    const targetCountries = countryColors ? Object.keys(countryColors) : [];
+
     return generateMap<TData>({
       height,
       width,
@@ -67,6 +70,7 @@ export function useMapFactory<TData = unknown>({
       geojsonWorld,
       geojsonByCountry,
       detectCountries: !!countryColors,
+      targetCountries,
     });
     // Use serialized keys instead of object references to prevent unnecessary recalculation
     // eslint-disable-next-line react-hooks/exhaustive-deps

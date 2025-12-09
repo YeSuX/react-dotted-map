@@ -31,6 +31,7 @@ export interface MapGenerationParams {
   geojsonWorld?: FeatureCollection;
   geojsonByCountry?: Record<string, Feature>;
   detectCountries?: boolean;
+  targetCountries?: string[];
 }
 
 /**
@@ -57,6 +58,7 @@ export function generateMap<TData = unknown>(
     geojsonWorld,
     geojsonByCountry,
     detectCountries = false,
+    targetCountries = [],
   } = params;
 
   // Validate dimensions
@@ -94,11 +96,14 @@ export function generateMap<TData = unknown>(
   const poly = geojsonToMultiPolygons(geojson);
 
   // Prepare country detection if enabled
+  // Only detect countries specified in targetCountries to improve performance
   const countryFeatures = detectCountries && geojsonByCountry
-    ? Object.entries(geojsonByCountry).map(([code, feature]) => ({
-      code,
-      feature,
-    }))
+    ? Object.entries(geojsonByCountry)
+      .filter(([code]) => targetCountries.length === 0 || targetCountries.includes(code))
+      .map(([code, feature]) => ({
+        code,
+        feature,
+      }))
     : [];
 
   // Project region bounds to Google Mercator
