@@ -16,7 +16,7 @@ export function WorldMapExample() {
       <DottedMapFactory
         width={800}
         height={400}
-        spacing={2}
+        spacing={10}
         geojsonWorld={geojsonWorld}
         shape="circle"
         color="#0ea5e9"
@@ -37,11 +37,11 @@ export function CountriesMapExample() {
       <DottedMapFactory
         width={600}
         height={400}
-        spacing={2}
+        spacing={5}
         countries={["CHN"]}
         geojsonByCountry={geojsonByCountry}
         grid="diagonal"
-        shape="hexagon"
+        shape="circle"
         color="#8b5cf6"
         radius={0.8}
       />
@@ -50,12 +50,12 @@ export function CountriesMapExample() {
 }
 
 /**
- * Example 3: Using render props for custom rendering
+ * Example 3: Using render props for custom rendering (legacy SVG mode)
  */
 export function CustomRenderExample() {
   return (
     <div>
-      <h2>Custom Render with Major Cities</h2>
+      <h2>Custom Render with Major Cities (SVG mode)</h2>
       <DottedMapFactory
         width={800}
         height={400}
@@ -85,8 +85,9 @@ export function CustomRenderExample() {
           return (
             <div>
               <p>
-                Map: {instance.image.width} x {instance.image.height} | Total
-                base points: {instance.getPoints().length}
+                Map: {instance.image.width} x {instance.image.height} | Base
+                points: {instance.getBasePoints().length} | User pins:{" "}
+                {instance.getUserPins().length}
               </p>
               <div
                 dangerouslySetInnerHTML={{
@@ -115,7 +116,7 @@ export function RegionMapExample() {
       <DottedMapFactory
         width={800}
         height={500}
-        spacing={2}
+        spacing={10}
         geojsonWorld={geojsonWorld}
         region={{
           lat: { min: -10, max: 55 },
@@ -130,17 +131,17 @@ export function RegionMapExample() {
 }
 
 /**
- * Example 5: Country-specific colors
+ * Example 5: Country-specific colors (Canvas mode - high performance)
  * Note: Uses larger spacing for better performance when detecting countries
  */
 export function CountryColorsExample() {
   return (
     <div>
-      <h2>World Map with Country Colors</h2>
+      <h2>World Map with Country Colors (Canvas mode)</h2>
       <DottedMapFactory
         width={800}
         height={400}
-        spacing={3}
+        spacing={5}
         geojsonWorld={geojsonWorld}
         geojsonByCountry={geojsonByCountry}
         shape="circle"
@@ -165,6 +166,37 @@ export function CountryColorsExample() {
 }
 
 /**
+ * Example 6: High-performance Canvas rendering
+ * Demonstrates significant performance improvement over SVG for large maps
+ */
+export function CanvasPerformanceExample() {
+  return (
+    <div>
+      <h2>High-Performance Canvas Rendering</h2>
+      <p style={{ color: "#64748b", fontSize: "14px", marginBottom: "1rem" }}>
+        World map with fine spacing (spacing=1.5) rendered with Canvas. Compare
+        performance with SVG rendering on large datasets.
+      </p>
+      <DottedMapFactory
+        width={800}
+        height={400}
+        spacing={5}
+        geojsonWorld={geojsonWorld}
+        grid="vertical"
+        shape="circle"
+        color="#0ea5e9"
+        backgroundColor="#f0f9ff"
+        radius={0.4}
+      />
+      <p style={{ fontSize: "12px", color: "#94a3b8", marginTop: "0.5rem" }}>
+        💡 Canvas rendering provides 10-100x better performance for large point
+        sets (&gt;10k points)
+      </p>
+    </div>
+  );
+}
+
+/**
  * Combined example showcase
  */
 export default function FactoryExample() {
@@ -172,11 +204,12 @@ export default function FactoryExample() {
     <div style={{ padding: "2rem" }}>
       <h1>DottedMapFactory Examples</h1>
       <div style={{ display: "flex", flexDirection: "column", gap: "3rem" }}>
-        {/* <WorldMapExample /> */}
-        {/* <CountriesMapExample /> */}
+        <WorldMapExample />
+        <CountriesMapExample />
         {/* <CustomRenderExample /> */}
-        {/* <RegionMapExample /> */}
+        <RegionMapExample />
         <CountryColorsExample />
+        <CanvasPerformanceExample />
       </div>
     </div>
   );

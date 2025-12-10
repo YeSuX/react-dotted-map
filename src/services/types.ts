@@ -53,11 +53,23 @@ export interface GetSVGParams {
   countryColors?: Record<string, string>;
 }
 
+export interface DrawCanvasParams {
+  canvas: HTMLCanvasElement;
+  shape?: ShapeType;
+  color?: string;
+  backgroundColor?: string;
+  radius?: number;
+  countryColors?: Record<string, string>;
+}
+
 export interface DottedMapInstance<TData = unknown> {
   addPin: (params: AddPinParams<TData>) => PinPoint<TData> | undefined;
   getPin: (params: { lat: number; lng: number }) => PinPoint<TData> | undefined;
   getPoints: () => PinPoint<TData>[];
+  getBasePoints: () => PinPoint<TData>[];
+  getUserPins: () => PinPoint<TData>[];
   getSVG: (params?: GetSVGParams) => string;
+  drawCanvas: (params: DrawCanvasParams) => void;
   image: {
     region?: string;
     width: number;

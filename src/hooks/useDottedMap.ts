@@ -7,12 +7,14 @@
 import { useRef, useMemo, useCallback } from "react";
 import { latLngToScreenCoords } from "../services/mapService";
 import { generateMapSVG } from "../services/svgService";
+import { drawMapOnCanvas } from "../services/canvasService";
 import type {
   MapConfig,
   DottedMapInstance,
   AddPinParams,
   PinPoint,
   GetSVGParams,
+  DrawCanvasParams,
   PolygonType,
 } from "../services/types";
 
@@ -35,15 +37,18 @@ export function useDottedMap<TData = unknown>(
   const mapRef = useRef<MapConfig<TData>>(map);
   mapRef.current = map;
 
-  // Use ref to store points map - doesn't need to trigger re-renders
-  // since SVG is generated on-demand via getSVG()
-  const pointsMapRef = useRef<Record<string, PinPoint<TData>>>({
+  // Store base points (from map.points) - rendered on Canvas
+  const basePointsRef = useRef<Record<string, PinPoint<TData>>>({
     ...map.points,
   });
+
+  // Store user-added pins - rendered as SVG for interactivity
+  const userPinsRef = useRef<Record<string, PinPoint<TData>>>({});
 
   /**
    * Add a pin to the map at given lat/lng coordinates
    * Snaps to nearest grid point based on map configuration
+   * User pins are rendered as SVG for interactivity
    */
   const addPin = useCallback(
     ({
@@ -70,9 +75,9 @@ export function useDottedMap<TData = unknown>(
         svgOptions,
       };
 
-      // Store in points map using x;y as key
+      // Store in user pins map using x;y as key
       const key = [point.x, point.y].join(";");
-      pointsMapRef.current[key] = point;
+      userPinsRef.current[key] = point;
 
       return point;
     },
@@ -103,10 +108,27 @@ export function useDottedMap<TData = unknown>(
   );
 
   /**
-   * Get all pins currently on the map
+   * Get all points (base + user pins)
    */
   const getPoints = useCallback((): PinPoint<TData>[] => {
-    return Object.values(pointsMapRef.current);
+    return [
+      ...Object.values(basePointsRef.current),
+      ...Object.values(userPinsRef.current),
+    ];
+  }, []);
+
+  /**
+   * Get base map points (rendered on Canvas)
+   */
+  const getBasePoints = useCallback((): PinPoint<TData>[] => {
+    return Object.values(basePointsRef.current);
+  }, []);
+
+  /**
+   * Get user-added pins (rendered as SVG for interactivity)
+   */
+  const getUserPins = useCallback((): PinPoint<TData>[] => {
+    return Object.values(userPinsRef.current);
   }, []);
 
   /**
@@ -114,8 +136,36 @@ export function useDottedMap<TData = unknown>(
    * Called on-demand when rendering is needed
    */
   const getSVG = useCallback((params: GetSVGParams = {}): string => {
-    const points = Object.values(pointsMapRef.current);
+    const points = [
+      ...Object.values(basePointsRef.current),
+      ...Object.values(userPinsRef.current),
+    ];
     return generateMapSVG(points, params, mapRef.current.width, mapRef.current.height);
+  }, []);
+
+  /**
+   * Draw base map points on canvas for high performance
+   */
+  const drawCanvas = useCallback((params: DrawCanvasParams): void => {
+    const {
+      canvas,
+      shape = "circle",
+      color = "current",
+      backgroundColor = "transparent",
+      radius = 0.5,
+      countryColors,
+    } = params;
+
+    const basePoints = Object.values(basePointsRef.current);
+    drawMapOnCanvas(
+      canvas,
+      basePoints,
+      shape,
+      color,
+      backgroundColor,
+      radius,
+      countryColors
+    );
   }, []);
 
   // Memoize the instance object to maintain referential stability
@@ -124,14 +174,17 @@ export function useDottedMap<TData = unknown>(
       addPin,
       getPin,
       getPoints,
+      getBasePoints,
+      getUserPins,
       getSVG,
+      drawCanvas,
       image: {
         region: mapRef.current.region,
         width: mapRef.current.width,
         height: mapRef.current.height,
       },
     }),
-    [addPin, getPin, getPoints, getSVG]
+    [addPin, getPin, getPoints, getBasePoints, getUserPins, getSVG, drawCanvas]
   );
 
   return instance;
