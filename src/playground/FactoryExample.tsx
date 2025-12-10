@@ -33,12 +33,12 @@ export function WorldMapExample() {
 export function CountriesMapExample() {
   return (
     <div>
-      <h2>Selected Countries (China & USA)</h2>
+      <h2>Selected Countries ( USA)</h2>
       <DottedMapFactory
         width={600}
         height={400}
         spacing={5}
-        countries={["CHN"]}
+        countries={["USA"]}
         geojsonByCountry={geojsonByCountry}
         grid="diagonal"
         shape="circle"
