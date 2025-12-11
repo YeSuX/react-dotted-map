@@ -1,27 +1,21 @@
-import { useState } from "react";
-import { DottedMap, type MapConfig } from "../components";
-
-const initialMapConfig: MapConfig = {
-  points: {},
-  X_MIN: -20037508.34,
-  Y_MAX: 20037508.34,
-  X_RANGE: 40075016.68,
-  Y_RANGE: 40075016.68,
-  region: "world",
-  grid: "square",
-  width: 800,
-  height: 400,
-  ystep: 1,
-};
+import { DottedMap } from "../components";
+import { geojsonWorld } from "../data";
+import { useMapFactory } from "../hooks";
 
 export default function RenderPropsExample() {
-  const [mapConfig] = useState(initialMapConfig);
+  const map = useMapFactory({
+    height: 400,
+    width: 800,
+    grid: "square",
+    spacing: 5,
+    geojsonWorld,
+  });
 
   return (
     <div style={{ marginBottom: "40px" }}>
       <h2>Render Props Example - Custom Pins</h2>
       <p>Using render props to add custom pins with different colors</p>
-      <DottedMap map={mapConfig}>
+      <DottedMap map={map}>
         {(instance) => {
           // Add major cities
           instance.addPin({
@@ -75,4 +69,3 @@ export default function RenderPropsExample() {
     </div>
   );
 }
-

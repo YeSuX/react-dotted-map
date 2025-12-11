@@ -1,23 +1,20 @@
 import { useState } from "react";
-import { useDottedMap, type MapConfig } from "../components";
-
-const initialMapConfig: MapConfig = {
-  points: {},
-  X_MIN: -20037508.34,
-  Y_MAX: 20037508.34,
-  X_RANGE: 40075016.68,
-  Y_RANGE: 40075016.68,
-  region: "world",
-  grid: "square",
-  width: 800,
-  height: 400,
-  ystep: 1,
-};
+import { useDottedMap } from "../components";
+import { geojsonWorld } from "../data";
+import { useMapFactory } from "../hooks";
 
 export default function HookExample() {
-  const [config, setConfig] = useState(initialMapConfig);
   const [refreshKey, setRefreshKey] = useState(0);
-  const mapInstance = useDottedMap(config);
+
+  const map = useMapFactory({
+    height: 400,
+    width: 800,
+    grid: "square",
+    spacing: 5,
+    geojsonWorld,
+  });
+
+  const mapInstance = useDottedMap(map);
 
   const handleAddPin = () => {
     const randomLat = (Math.random() - 0.5) * 180;
@@ -38,11 +35,7 @@ export default function HookExample() {
   };
 
   const handleClearPins = () => {
-    // Reset the config to clear all pins
-    setConfig({
-      ...initialMapConfig,
-      points: {},
-    });
+    // Force re-render to clear pins by resetting the key
     setRefreshKey((prev) => prev + 1);
   };
 
