@@ -1,5 +1,5 @@
 {
-  "name": "react-dotted-map",
+  "name": "@suxiong/react-dotted-map",
   "version": "1.0.0",
   "description": "A React library for rendering interactive dotted maps with GeoJSON support",
   "type": "module",
