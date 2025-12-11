@@ -8,7 +8,7 @@
  * - SVG layer: User-added pins (interactive)
  */
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, type ReactNode } from "react";
 import { useDottedMap } from "../hooks/useDottedMap";
 import Pin from "./Pin";
 import type { MapConfig, PolygonType, ShapeType } from "../services/types";
@@ -17,9 +17,7 @@ export interface DottedMapProps<TData = unknown> {
   map: MapConfig<TData>;
   avoidOuterPins?: boolean;
   polygon?: PolygonType;
-  children?: (
-    instance: ReturnType<typeof useDottedMap<TData>>
-  ) => React.ReactNode;
+  children?: (instance: ReturnType<typeof useDottedMap<TData>>) => ReactNode;
   shape?: ShapeType;
   color?: string;
   backgroundColor?: string;

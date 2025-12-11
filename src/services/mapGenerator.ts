@@ -152,7 +152,8 @@ export function generateMap<TData = unknown>(
         let countryCode: string | undefined;
         if (detectCountries && countryFeatures.length > 0) {
           for (const { code, feature } of countryFeatures) {
-            if (inside(wgs84Point, feature)) {
+            // Type assertion: GeoJSON country features are always Polygon/MultiPolygon
+            if (inside(wgs84Point, feature as any)) {
               countryCode = code;
               break;
             }

@@ -1,13 +1,48 @@
 {
   "name": "react-dotted-map",
-  "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "description": "A React library for rendering interactive dotted maps with GeoJSON support",
   "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsup && tsc -p tsconfig.build.json --emitDeclarationOnly --outDir dist",
+    "build:demo": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "react",
+    "map",
+    "dotted-map",
+    "geojson",
+    "visualization",
+    "svg",
+    "canvas"
+  ],
+  "author": "suxiong",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/react-dotted-map.git"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
   },
   "dependencies": {
     "@turf/turf": "^7.3.1",
