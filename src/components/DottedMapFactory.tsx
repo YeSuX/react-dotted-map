@@ -10,8 +10,7 @@ import { useMapFactory } from "../hooks/useMapFactory";
 import type { BoundingBox } from "../services/geojsonService";
 import type { GridType } from "../services/types";
 
-export interface DottedMapFactoryProps<TData = unknown>
-  extends Omit<DottedMapProps<TData>, "map"> {
+export interface DottedMapFactoryProps extends Omit<DottedMapProps, "map"> {
   height?: number;
   width?: number;
   countries?: string[];
@@ -37,7 +36,7 @@ export interface DottedMapFactoryProps<TData = unknown>
  * />
  * ```
  */
-export default function DottedMapFactory<TData = unknown>({
+export default function DottedMapFactory({
   height,
   width,
   countries,
@@ -48,9 +47,9 @@ export default function DottedMapFactory<TData = unknown>({
   geojsonByCountry,
   countryColors,
   ...dottedMapProps
-}: DottedMapFactoryProps<TData>) {
+}: DottedMapFactoryProps) {
   // Delegate map generation logic to Hook layer
-  const map = useMapFactory<TData>({
+  const map = useMapFactory({
     height,
     width,
     countries,
@@ -63,10 +62,6 @@ export default function DottedMapFactory<TData = unknown>({
   });
 
   return (
-    <DottedMap<TData>
-      map={map}
-      countryColors={countryColors}
-      {...dottedMapProps}
-    />
+    <DottedMap map={map} countryColors={countryColors} {...dottedMapProps} />
   );
 }

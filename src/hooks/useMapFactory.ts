@@ -10,7 +10,7 @@ import { generateMap } from "../services/mapGenerator";
 import type { BoundingBox } from "../services/geojsonService";
 import type { GridType, MapConfig } from "../services/types";
 
-export interface UseMapFactoryParams<TData = unknown> {
+export interface UseMapFactoryParams {
   height?: number;
   width?: number;
   countries?: string[];
@@ -28,7 +28,7 @@ export interface UseMapFactoryParams<TData = unknown> {
  * 
  * @returns MapConfig object ready for use by DottedMap component
  */
-export function useMapFactory<TData = unknown>({
+export function useMapFactory({
   height,
   width,
   countries,
@@ -38,7 +38,7 @@ export function useMapFactory<TData = unknown>({
   geojsonWorld,
   geojsonByCountry,
   countryColors,
-}: UseMapFactoryParams<TData>): MapConfig<TData> {
+}: UseMapFactoryParams): MapConfig {
   // Serialize all complex dependencies to prevent reference instability
   const countriesKey = countries ? JSON.stringify(countries) : "";
   const regionKey = region ? JSON.stringify(region) : "";
@@ -60,7 +60,7 @@ export function useMapFactory<TData = unknown>({
     // Only detect countries in countryColors to improve performance
     const targetCountries = countryColors ? Object.keys(countryColors) : [];
 
-    return generateMap<TData>({
+    return generateMap({
       height,
       width,
       countries,

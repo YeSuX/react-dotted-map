@@ -2,8 +2,11 @@
 
 [![npm version](https://img.shields.io/npm/v/@suxiong/react-dotted-map.svg)](https://www.npmjs.com/package/@suxiong/react-dotted-map)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![Deploy Status](https://github.com/YeSuX/react-dotted-map/actions/workflows/deploy.yml/badge.svg)](https://github.com/YeSuX/react-dotted-map/actions/workflows/deploy.yml)
 
 一个高性能的 React 点阵地图渲染库，支持基于 GeoJSON 数据的交互式地图可视化。
+
+**🎮 [在线演示 Playground](https://yesux.github.io/react-dotted-map/)**
 
 ## ✨ 特性
 
@@ -672,6 +675,7 @@ MIT © [suxiong](https://github.com/YeSuX)
 
 ## 🔗 相关链接
 
+- [在线演示](https://yesux.github.io/react-dotted-map/)
 - [GitHub 仓库](https://github.com/YeSuX/react-dotted-map)
 - [NPM 包](https://www.npmjs.com/package/@suxiong/react-dotted-map)
 - [问题反馈](https://github.com/YeSuX/react-dotted-map/issues)

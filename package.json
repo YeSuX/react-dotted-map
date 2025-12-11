@@ -21,6 +21,7 @@
     "dev": "vite",
     "build": "tsup && tsc -p tsconfig.build.json --emitDeclarationOnly --outDir dist",
     "build:demo": "tsc -b && vite build",
+    "preview:demo": "vite preview --outDir dist-demo",
     "lint": "eslint .",
     "preview": "vite preview",
     "prepublishOnly": "npm run build"
