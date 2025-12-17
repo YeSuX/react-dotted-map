@@ -8,6 +8,7 @@ import BasicExample from "./BasicExample";
 import RenderPropsExample from "./RenderPropsExample";
 import HookExample from "./HookExample";
 import CountryFilterExample from "./CountryFilterExample";
+import CountryHighlightExample from "./CountryHighlightExample";
 import UserDistributionExample from "./UserDistributionExample";
 import InteractiveMapExample from "./InteractiveMapExample";
 import RegionComparisonExample from "./RegionComparisonExample";
@@ -19,6 +20,7 @@ type ExampleKey =
   | "renderProps"
   | "hook"
   | "countryFilter"
+  | "countryHighlight"
   | "userDistribution"
   | "interactive"
   | "regionComparison"
@@ -59,6 +61,12 @@ export default function PlaygroundApp() {
       key: "countryFilter",
       label: "Country Filtering",
       component: CountryFilterExample,
+      category: "Use Cases",
+    },
+    {
+      key: "countryHighlight",
+      label: "Country Highlight",
+      component: CountryHighlightExample,
       category: "Use Cases",
     },
     {
@@ -260,5 +268,8 @@ export default function PlaygroundApp() {
     </div>
   );
 }
+
+
+
 
 

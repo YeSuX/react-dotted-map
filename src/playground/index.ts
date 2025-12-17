@@ -3,6 +3,7 @@ export { default as RenderPropsExample } from "./RenderPropsExample";
 export { default as HookExample } from "./HookExample";
 export { default as FactoryExample } from "./FactoryExample";
 export { default as CountryFilterExample } from "./CountryFilterExample";
+export { default as CountryHighlightExample } from "./CountryHighlightExample";
 export { default as UserDistributionExample } from "./UserDistributionExample";
 export { default as InteractiveMapExample } from "./InteractiveMapExample";
 export { default as RegionComparisonExample } from "./RegionComparisonExample";
