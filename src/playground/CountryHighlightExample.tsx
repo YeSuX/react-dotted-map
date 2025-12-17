@@ -189,7 +189,6 @@ export default function CountryHighlightExample() {
           width={900}
           grid="square"
           spacing={5}
-          countries={selectedCountry ? [selectedCountry] : undefined}
           geojsonWorld={geojsonWorld}
           geojsonByCountry={geojsonByCountry}
           countryColors={countryColors}

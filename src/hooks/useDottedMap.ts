@@ -4,7 +4,7 @@
  * Returns a stable API for UI components to interact with the map
  */
 
-import { useRef, useMemo, useCallback } from "react";
+import { useRef, useMemo, useCallback, useEffect } from "react";
 import { latLngToScreenCoords } from "../services/mapService";
 import { generateMapSVG } from "../services/svgService";
 import { drawMapOnCanvas } from "../services/canvasService";
@@ -44,6 +44,12 @@ export function useDottedMap<TData = unknown>(
 
   // Store user-added pins - rendered as SVG for interactivity
   const userPinsRef = useRef<Record<string, PinPoint<TData>>>({});
+
+  // Update base points when map changes (e.g., when countryColors change)
+  // This ensures the rendered points have the latest countryCode information
+  useEffect(() => {
+    basePointsRef.current = { ...map.points };
+  }, [map]);
 
   /**
    * Add a pin to the map at given lat/lng coordinates
