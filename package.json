@@ -25,7 +25,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "prepublishOnly": "npm run build",
-    "release:github": "gh release create v$(node -p \"require('./package.json').version\") --generate-notes --verify-tag",
+    "release:github": "gh release create v$(node -p \"require('./package.json').version\") --generate-notes",
     "release:npm": "npm publish",
     "release": "npm run release:npm && npm run release:github"
   },
